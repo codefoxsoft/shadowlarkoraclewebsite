@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadowlark's Oracle | Sacred Geometry Narrative Engine</title>
+    <meta name="description" content="The Sacred Geometry Narrative Engine. A mathematical cipher for the soul. Pythagorean Roots, Fibonacci Spirals, and Mythic Synthesis.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- External Libraries (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+</head>
+<body>
+    <!-- Background Particles -->
+    <canvas id="particles-canvas"></canvas>
+
+    <main>
+        <!-- ── NAVIGATION ── -->
+        <nav id="main-nav">
+            <div class="logo">SHADOWLARK</div>
+            
+            <div class="nav-links desktop-only">
+                <a href="#engine">The Engine</a>
+                <a href="#anagram">Wordweaver</a>
+                <a href="#mobile-features">Mobile App</a>
+                <a href="mythos.html">The Mythos</a>
+            </div>
+
+            <button id="mobile-menu-toggle" class="mobile-only" aria-label="Toggle Menu">☰</button>
+        </nav>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="glass">
+            <button id="mobile-menu-close">← RETURN</button>
+            <a href="#engine">The Engine</a>
+            <a href="#anagram">Wordweaver</a>
+            <a href="#mobile-features">Mobile App</a>
+            <a href="mythos.html">The Mythos</a>
+            <a href="#download" class="btn-primary">Download</a>
+        </div>
+
+        <!-- ── HERO SECTION ── -->
+        <section id="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content glass">
+                <h1>SHADOWLARK'S <span class="phi-gradient-text">ORACLE</span></h1>
+                <p class="subtitle">The Sacred Geometry Narrative Engine. A mathematical cipher for the soul.</p>
+                <div class="hero-actions">
+                    <a href="#download" class="btn-primary">Download on Windows/Mobile!</a>
+                    <a href="mythos.html" class="btn-secondary">Read the Grimoire</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── THE ARCANA (THREE.JS CAROUSELS) ── -->
+        <section id="arcana">
+            <h2 class="section-title">The <span class="phi-gradient-text">Arcana</span></h2>
+
+            <div class="carousel-container">
+                <h3 class="carousel-label cyan">Desktop Interface</h3>
+                <p class="carousel-hint">&larr; Hover or Scroll to explore &rarr;</p>
+                <div id="desktop-carousel" class="three-container"></div>
+                <div id="desktop-title" class="active-title cyan">The Interface</div>
+            </div>
+
+            <div class="carousel-container">
+                <h3 class="carousel-label gold">Mobile Application</h3>
+                <p class="carousel-hint">&larr; Hover or Scroll to explore &rarr;</p>
+                <div id="mobile-carousel" class="three-container"></div>
+                <div id="mobile-title" class="active-title gold">Mobile Interface</div>
+            </div>
+        </section>
+
+        <!-- ── THE ENGINE ── -->
+        <section id="engine" class="content-section">
+            <h2 class="section-title">Sacred <span class="phi-gradient-text">Numerology</span></h2>
+            <div class="grid">
+                <div class="glass card">
+                    <h3>Pythagorean Roots</h3>
+                    <p>Every word is reduced to its core vibrational root (1-9), revealing the elemental energy bound to your names and questions.</p>
+                </div>
+                <div class="glass card">
+                    <h3>Fibonacci Spirals</h3>
+                    <p>The spacing of your characters determines the 'Spiral Weight'. Prophecy manifests where your intent aligns with the Golden Ratio.</p>
+                </div>
+                <div class="glass card">
+                    <h3>Mythic Synthesis</h3>
+                    <p>Powered by a localized cognitive core. The AI weaves these ancient numbers into a cohesive, deterministic Shamanistic synthesis.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── THE WORDWEAVER ── -->
+        <section id="anagram" class="matrix-section">
+            <div class="glass matrix-content">
+                <div class="matrix-icon">🔤</div>
+                <h2 class="section-title">The <span class="phi-gradient-text">Anagram</span> Matrix</h2>
+                <p>The Oracle does not merely evaluate numbers; it transposes the linguistic fabric of reality. The internal <strong>Wordweaver</strong> engine forces the language model to speak exclusively in anagrams of powerful intention.</p>
+                <ul class="feature-list">
+                    <li><strong>Dictionary Cross-Stitching:</strong> User input is stripped and fed through an immense English catalog, finding exact character matches.</li>
+                    <li><strong>Numerological Filtering:</strong> If your sentence resonates on a Fire frequency, the engine prioritizes chaotic, energetic anagram combinations.</li>
+                    <li><strong>Forced Determinism:</strong> The LLM is restricted. It can only structure sentences using the exact anagrams generated by the physics of your query.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ── MOBILE EXCLUSIVES ── -->
+        <section id="mobile-features" class="content-section">
+            <h2 class="section-title">Mobile <span class="phi-gradient-text">Divinations</span></h2>
+            <p class="section-intro">The Android application brings an array of powerful exclusive features tailored for deep, personal exploration.</p>
+            <div class="grid">
+                <div class="glass card gold-border">
+                    <h3 class="gold-text">Sacred Math Horoscopes</h3>
+                    <p>A robust astrological engine powered by Pythagorean Roots and planetary day bias to generate mathematically aligned daily readings.</p>
+                </div>
+                <div class="glass card gold-border">
+                    <h3 class="gold-text">9 Distinct Tarot Spreads</h3>
+                    <p>Experience guidance including the Single Card, Daily Resonance, Trinity Spread, and The Oracle's Eye. Past, present, and future woven together.</p>
+                </div>
+                <div class="glass card gold-border">
+                    <h3 class="gold-text">Offline Privacy</h3>
+                    <p>Your readings are computed entirely on-device with the offline LLM core, offering secure spiritual guidance without an internet connection.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── DOWNLOAD NEXUS ── -->
+        <section id="download">
+            <div class="glass nexus-box">
+                <h2>Initiate <span class="phi-gradient-text">Protocol</span></h2>
+                <p>The standalone installer contains the geometry. The 2GB cognitive core is pulled dynamically from the ether upon first launch.</p>
+                <div class="download-actions">
+                    <a href="ShadowlarkOracle_Setup.exe" class="btn-primary big">Windows (.exe)</a>
+                    <a href="#" class="btn-secondary big">Android (.apk)</a>
+                </div>
+                <div class="specs-grid">
+                    <div class="spec-item"><span>OS</span><strong>Windows 10/11</strong></div>
+                    <div class="spec-item"><span>RAM</span><strong>8GB+ Rec.</strong></div>
+                    <div class="spec-item"><span>DISK</span><strong>3GB Space</strong></div>
+                    <div class="spec-item"><span>CHIP</span><strong>x64 / ARM</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── FOOTER ── -->
+        <footer>
+            <div class="engineered-by">
+                <span>Engineered by</span>
+                <a href="https://codefoxsoft.com"><img src="imgs/favicon-v2.ico" alt="codefoxsoft"></a>
+            </div>
+            <p class="copyright">© 2026 Shadowlark's Oracle. All geometric rights reserved.</p>
+            <a href="privacy.html" class="privacy-link">Privacy Policy</a>
+        </footer>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

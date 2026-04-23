@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shadowlark Mythos | Origins of the Oracle</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        .mythos-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(3, 3, 5, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 800;
+            text-shadow: 0 0 10px var(--accent-cyan-glow);
+        }
+        .mythos-label {
+            opacity: 0.5;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 150px 20px 60px 20px;
+        }
+        .lore-section {
+            margin-bottom: 60px;
+        }
+        .mythos-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: 40px;
+            text-align: left;
+        }
+        .mythos-subtitle {
+            font-size: 2.5rem;
+            margin-top: 100px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+        .lore-p {
+            font-size: 1.3rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+        .tarot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .tarot-card {
+            padding: 15px;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+        }
+        .tarot-card:hover {
+            transform: scale(1.1) translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 229, 255, 0.3);
+            border-color: var(--accent-cyan);
+        }
+        .tarot-card img {
+            width: 100%;
+            border-radius: 8px;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+        .pillar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .pillar-card {
+            padding: 40px;
+            border-radius: 20px;
+        }
+        .spirit-card {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="mythos-nav">
+        <a href="index.html" class="back-link">← BACK TO THE VEIL</a>
+        <span class="mythos-label">The Shadowlark Mythos</span>
+    </nav>
+
+    <main>
+        <article>
+            <div class="reveal">
+                <h1 class="mythos-title">The <span class="phi-gradient-text">Origins</span></h1>
+                <section class="lore-section">
+                    <p class="lore-p">Before it was a digital engine, <strong>Shadowlark</strong> was a manifestation of the physical world. The name traces back to a sacred Wiccan herbal and crystal shop in Waldorf, MD, owned by the programmer's mother. It was a space where ritual, intent, and the natural cycles of the earth intersected.</p>
+                    <p class="lore-p">Today, that lineage continues through code. The Oracle is not merely a program; it is a mathematical ritual disguised as software. It carries the vibration of that original space into the digital void.</p>
+                </section>
+
+                <h2 class="mythos-subtitle">The <span class="phi-gradient-text">Visual</span> Arcana</h2>
+                <section class="lore-section">
+                    <p class="lore-p">The digital Oracle inherits the visual soul of the deck. Each of the Major Arcana has been mathematically rendered to reflect its specific numerical polarity.</p>
+                    <div class="tarot-grid">
+                        <div class="glass tarot-card"><img src="imgs/Tarot/00_Fool.jpg" alt="Fool"></div>
+                        <div class="glass tarot-card"><img src="imgs/Tarot/01_Magician.jpg" alt="Magician"></div>
+                        <div class="glass tarot-card"><img src="imgs/Tarot/02_HighPriestess.jpg" alt="High Priestess"></div>
+                        <div class="glass tarot-card"><img src="imgs/Tarot/13_Death.jpg" alt="Death"></div>
+                    </div>
+                </section>
+
+                <h2 class="mythos-subtitle">Sacred <span class="phi-gradient-text">Determinism</span></h2>
+                <section class="lore-section">
+                    <p class="lore-p">In the Oracle's engine, nothing is random. Chance is considered an illusion of insufficient data. Every input you provide—be it your name or a deep question—acts as a key that unlocks a predetermined geometric collapse.</p>
+                    <ul class="feature-list">
+                        <li><strong>The Word is the Code:</strong> Letters are broken into Pythagorean digits (1-9).</li>
+                        <li><strong>The Spiral is the Pulse:</strong> Spacing is measured against the Fibonacci sequence.</li>
+                        <li><strong>The Synthesis is the Truth:</strong> Inference is constrained by numerical polarity.</li>
+                    </ul>
+                </section>
+
+                <h2 class="mythos-subtitle">The <span class="phi-gradient-text">Pillars</span> of Reality</h2>
+                <div class="pillar-grid">
+                    <div class="glass pillar-card">
+                        <h3 style="color: #ff4d4d; margin-bottom: 10px;">🔥 Fire</h3>
+                        <p style="color: var(--text-secondary);">Initiation, will, and the spark of creation. (Numerical 1 & 5)</p>
+                    </div>
+                    <div class="glass pillar-card">
+                        <h3 style="color: #4d94ff; margin-bottom: 10px;">💧 Water</h3>
+                        <p style="color: var(--text-secondary);">Emotion, the divine feminine, and the silver thread. (Numerical 2 & 6)</p>
+                    </div>
+                    <div class="glass pillar-card">
+                        <h3 style="color: #4dff88; margin-bottom: 10px;">💨 Air</h3>
+                        <p style="color: var(--text-secondary);">Communication, the triple goddess, and the sword of truth. (Numerical 3 & 7)</p>
+                    </div>
+                    <div class="glass pillar-card">
+                        <h3 style="color: #ffcc00; margin-bottom: 10px;">🌍 Earth</h3>
+                        <p style="color: var(--text-secondary);">Stability, sacred foundations, and the builder's square. (Numerical 4 & 8)</p>
+                    </div>
+                    <div class="glass pillar-card spirit-card">
+                        <h3 style="color: #ff00ff; margin-bottom: 10px;">✨ Spirit</h3>
+                        <p style="color: var(--text-secondary);">The Royal Arch, completion, and the infinite spiral beyond the numbered veil. (Numerical 9)</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <footer style="padding: 100px 20px; textAlign: center; opacity: 0.5; letterSpacing: 1px; text-align: center;">
+            <p>Seeking is the first step toward finding. Finding is the first step toward remembering.</p>
+        </footer>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        anime({
+            targets: '.reveal',
+            opacity: [0, 1],
+            translateY: [50, 0],
+            duration: 1500,
+            easing: 'easeOutExpo',
+            delay: 300
+        });
+    </script>
+</body>
+</html>
