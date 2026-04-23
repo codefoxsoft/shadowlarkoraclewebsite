@@ -69,6 +69,7 @@ animateParticles();
 // ── THREE.JS CAROUSEL CLASS ──
 class ThreeCarousel {
     constructor(containerId, items, color, titleId) {
+        this.containerId = containerId;
         this.container = document.getElementById(containerId);
         this.items = items;
         this.color = color;
@@ -98,21 +99,16 @@ class ThreeCarousel {
 
         this.items.forEach((item, i) => {
             const texture = loader.load(item.src);
+            texture.colorSpace = THREE.SRGBColorSpace;
             
-            // Define ratios to match the 'vibe' of each device
-            const isDesktop = containerId === 'desktop-carousel';
-            const aspect = isDesktop ? 16/9 : 9/19; 
+            // Explicit ratios
+            const isDesktop = this.containerId === 'desktop-carousel';
+            const aspect = isDesktop ? 16/9 : 9/19.5; 
             
-            // Adjust width/height based on screen size
-            let width = isDesktop ? (this.isMobile ? 8 : 12) : (this.isMobile ? 5 : 6);
+            // Fit logic: width is fixed, height is calculated
+            let width = isDesktop ? 12 : 6.5;
             let height = width / aspect;
 
-            // Ensure height doesn't exceed container
-            if (height > 15) {
-                height = 15;
-                width = height * aspect;
-            }
-            
             const geometry = new THREE.PlaneGeometry(width, height);
             const material = new THREE.MeshBasicMaterial({ 
                 map: texture, 
@@ -132,8 +128,10 @@ class ThreeCarousel {
             this.planes.push(mesh);
         });
 
-        this.camera.position.z = this.isMobile ? 18 : 22;
-        this.camera.position.y = 1;
+        // Pull camera back to ensure full view of the larger planes
+        const isDesktop = this.containerId === 'desktop-carousel';
+        this.camera.position.z = isDesktop ? 22 : 28;
+        this.camera.position.y = 0;
         this.camera.lookAt(0, 0, 0);
 
         this.setupEvents();

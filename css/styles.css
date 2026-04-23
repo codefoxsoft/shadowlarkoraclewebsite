@@ -335,9 +335,16 @@ h1 {
   margin-bottom: 20px;
 }
 
+#desktop-carousel {
+  height: 600px;
+}
+
+#mobile-carousel {
+  height: 850px;
+}
+
 .three-container {
   width: 100%;
-  height: 700px;
   cursor: grab;
 }
 
