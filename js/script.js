@@ -98,9 +98,20 @@ class ThreeCarousel {
 
         this.items.forEach((item, i) => {
             const texture = loader.load(item.src);
-            const aspect = this.containerId === 'desktop-carousel' ? 16/9 : 9/18;
-            const width = this.isMobile ? 5 : 7;
-            const height = width / aspect;
+            
+            // Define ratios to match the 'vibe' of each device
+            const isDesktop = containerId === 'desktop-carousel';
+            const aspect = isDesktop ? 16/9 : 9/19; 
+            
+            // Adjust width/height based on screen size
+            let width = isDesktop ? (this.isMobile ? 8 : 12) : (this.isMobile ? 5 : 6);
+            let height = width / aspect;
+
+            // Ensure height doesn't exceed container
+            if (height > 15) {
+                height = 15;
+                width = height * aspect;
+            }
             
             const geometry = new THREE.PlaneGeometry(width, height);
             const material = new THREE.MeshBasicMaterial({ 
@@ -121,8 +132,8 @@ class ThreeCarousel {
             this.planes.push(mesh);
         });
 
-        this.camera.position.z = 20;
-        this.camera.position.y = 2;
+        this.camera.position.z = this.isMobile ? 18 : 22;
+        this.camera.position.y = 1;
         this.camera.lookAt(0, 0, 0);
 
         this.setupEvents();
@@ -151,9 +162,15 @@ class ThreeCarousel {
                 return;
             }
             const deltaX = e.clientX - this.prevMouseX;
-            this.targetRotation += deltaX * 0.005;
+            this.targetRotation += deltaX * 0.003; // Smoother dragging
             this.prevMouseX = e.clientX;
         });
+
+        this.container.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            this.targetRotation += e.deltaY * 0.001;
+            this.snapToClosest();
+        }, { passive: false });
 
         window.addEventListener('mouseup', () => {
             if (this.isDragging) {
@@ -171,7 +188,7 @@ class ThreeCarousel {
         window.addEventListener('touchmove', (e) => {
             if (!this.isDragging) return;
             const deltaX = e.touches[0].clientX - this.prevMouseX;
-            this.targetRotation += deltaX * 0.01;
+            this.targetRotation += deltaX * 0.012; // More sensitive for mobile swipes
             this.prevMouseX = e.touches[0].clientX;
         });
 
@@ -303,6 +320,9 @@ const observer = new IntersectionObserver((entries) => {
                 duration: 1000,
                 easing: 'easeOutExpo'
             });
+            // Fallback for immediate visibility
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
             observer.unobserve(entry.target);
         }
     });
