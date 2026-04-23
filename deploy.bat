@@ -22,7 +22,7 @@ git add .
 
 echo.
 echo Committing updates...
-git commit -m "Simplified Vanilla Site: Three.js Carousels and zero-bloat architecture."
+git commit -m "Site update: %date% %time% - Finalizing fitted carousel proportions and cache-busting."
 
 echo.
 echo Pushing to GitHub Pages...
