@@ -1,6 +1,6 @@
 /**
  * SHADOWLARK'S ORACLE - Main Script
- * Vanilla JS + Three.js + Anime.js
+ * Vanilla JS + Anime.js (2D Optimized)
  */
 
 // ── MOBILE MENU ──
@@ -11,7 +11,6 @@ const mobileMenu = document.getElementById('mobile-menu');
 mobileMenuToggle.addEventListener('click', () => mobileMenu.classList.add('active'));
 mobileMenuClose.addEventListener('click', () => mobileMenu.classList.remove('active'));
 
-// Close menu on link click
 document.querySelectorAll('#mobile-menu a').forEach(link => {
     link.addEventListener('click', () => mobileMenu.classList.remove('active'));
 });
@@ -25,14 +24,11 @@ function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
-
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 class Particle {
-    constructor() {
-        this.reset();
-    }
+    constructor() { this.reset(); }
     reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
@@ -53,278 +49,161 @@ class Particle {
         ctx.fill();
     }
 }
-
-for (let i = 0; i < 100; i++) particles.push(new Particle());
-
+for (let i = 0; i < 80; i++) particles.push(new Particle());
 function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
+    particles.forEach(p => { p.update(); p.draw(); });
     requestAnimationFrame(animateParticles);
 }
 animateParticles();
 
-// ── THREE.JS CAROUSEL CLASS ──
-class ThreeCarousel {
-    constructor(containerId, items, color, titleId) {
-        this.containerId = containerId;
+// ── ANIME 2D CAROUSEL CLASS ──
+class AnimeCarousel {
+    constructor(containerId, items, titleId) {
         this.container = document.getElementById(containerId);
-        this.items = items;
-        this.color = color;
+        this.itemsData = items;
         this.titleElement = document.getElementById(titleId);
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(45, this.container.clientWidth / this.container.clientHeight, 0.1, 1000);
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        this.planes = [];
-        this.targetRotation = 0;
-        this.currentRotation = 0;
         this.activeIndex = 0;
-        this.isDragging = false;
-        this.prevMouseX = 0;
         this.isMobile = window.innerWidth < 768;
 
         this.init();
     }
 
     init() {
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        this.container.appendChild(this.renderer.domElement);
+        // Build HTML
+        this.container.innerHTML = `
+            <div class="carousel-track">
+                ${this.itemsData.map((item, i) => `
+                    <div class="carousel-item glass" data-index="${i}">
+                        <img src="${item.src}" alt="${item.title}">
+                    </div>
+                `).join('')}
+            </div>
+        `;
 
-        const radius = this.isMobile ? 8 : 10;
-        const angleStep = (Math.PI * 2) / this.items.length;
-        const loader = new THREE.TextureLoader();
-
-        this.items.forEach((item, i) => {
-            const texture = loader.load(item.src);
-            texture.colorSpace = THREE.SRGBColorSpace;
-            
-            // Explicit ratios
-            const isDesktop = this.containerId === 'desktop-carousel';
-            const aspect = isDesktop ? 16/9 : 9/19.5; 
-            
-            // Fit logic: width is fixed, height is calculated
-            let width = isDesktop ? 12 : 6.5;
-            let height = width / aspect;
-
-            const geometry = new THREE.PlaneGeometry(width, height);
-            const material = new THREE.MeshBasicMaterial({ 
-                map: texture, 
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 0.3
-            });
-
-            const mesh = new THREE.Mesh(geometry, material);
-            const angle = i * angleStep;
-            
-            mesh.position.x = Math.sin(angle) * radius;
-            mesh.position.z = Math.cos(angle) * radius;
-            mesh.lookAt(0, 0, 0);
-            
-            this.scene.add(mesh);
-            this.planes.push(mesh);
-        });
-
-        // Pull camera back to ensure full view of the larger planes
-        const isDesktop = this.containerId === 'desktop-carousel';
-        this.camera.position.z = isDesktop ? 22 : 28;
-        this.camera.position.y = 0;
-        this.camera.lookAt(0, 0, 0);
+        this.track = this.container.querySelector('.carousel-track');
+        this.items = this.container.querySelectorAll('.carousel-item');
 
         this.setupEvents();
-        this.animate();
-        this.updateActiveState();
+        this.updateActive(0);
     }
 
     setupEvents() {
-        this.container.addEventListener('mousedown', (e) => {
-            this.isDragging = true;
-            this.prevMouseX = e.clientX;
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!this.isDragging) {
-                // Raycasting for hover selection on Desktop
-                if (!this.isMobile) {
-                    const rect = this.container.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / this.container.clientWidth) * 2 - 1;
-                    const y = -((e.clientY - rect.top) / this.container.clientHeight) * 2 + 1;
-                    
-                    if (x > -1 && x < 1 && y > -1 && y < 1) {
-                        this.handleHover(x, y);
-                    }
-                }
-                return;
-            }
-            const deltaX = e.clientX - this.prevMouseX;
-            this.targetRotation += deltaX * 0.003; // Smoother dragging
-            this.prevMouseX = e.clientX;
-        });
-
-        this.container.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            this.targetRotation += e.deltaY * 0.001;
-            this.snapToClosest();
-        }, { passive: false });
-
-        window.addEventListener('mouseup', () => {
-            if (this.isDragging) {
-                this.isDragging = false;
-                this.snapToClosest();
-            }
-        });
-
-        // Touch events
-        this.container.addEventListener('touchstart', (e) => {
-            this.isDragging = true;
-            this.prevMouseX = e.touches[0].clientX;
-        });
-
-        window.addEventListener('touchmove', (e) => {
-            if (!this.isDragging) return;
-            const deltaX = e.touches[0].clientX - this.prevMouseX;
-            this.targetRotation += deltaX * 0.012; // More sensitive for mobile swipes
-            this.prevMouseX = e.touches[0].clientX;
-        });
-
-        window.addEventListener('touchend', () => {
-            if (this.isDragging) {
-                this.isDragging = false;
-                this.snapToClosest();
-            }
+        this.container.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+        
+        // Click to scroll
+        this.items.forEach((item, i) => {
+            item.addEventListener('click', () => this.scrollToIndex(i));
+            item.addEventListener('mouseenter', () => {
+                if (!this.isMobile) this.scrollToIndex(i);
+            });
         });
 
         window.addEventListener('resize', () => {
-            this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
-            this.camera.updateProjectionMatrix();
-            this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
             this.isMobile = window.innerWidth < 768;
         });
     }
 
-    handleHover(x, y) {
-        const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera({ x, y }, this.camera);
-        const intersects = raycaster.intersectObjects(this.planes);
-        
-        if (intersects.length > 0) {
-            const index = this.planes.indexOf(intersects[0].object);
-            if (index !== this.activeIndex) {
-                this.scrollToIndex(index);
+    handleScroll() {
+        const containerCenter = this.container.scrollLeft + this.container.clientWidth / 2;
+        let closestIndex = 0;
+        let minDiff = Infinity;
+
+        this.items.forEach((item, i) => {
+            const itemCenter = item.offsetLeft + item.clientWidth / 2;
+            const diff = Math.abs(itemCenter - containerCenter);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestIndex = i;
             }
+        });
+
+        if (closestIndex !== this.activeIndex) {
+            this.updateActive(closestIndex);
         }
     }
 
     scrollToIndex(index) {
-        const angleStep = (Math.PI * 2) / this.items.length;
-        this.targetRotation = -index * angleStep;
-        this.updateActiveState();
-    }
-
-    snapToClosest() {
-        const angleStep = (Math.PI * 2) / this.items.length;
-        const index = Math.round(-this.targetRotation / angleStep);
-        this.scrollToIndex((index % this.items.length + this.items.length) % this.items.length);
-    }
-
-    updateActiveState() {
-        const angleStep = (Math.PI * 2) / this.items.length;
-        this.activeIndex = (Math.round(-this.targetRotation / angleStep) % this.items.length + this.items.length) % this.items.length;
+        const item = this.items[index];
+        const targetScroll = item.offsetLeft - this.container.clientWidth / 2 + item.clientWidth / 2;
         
+        this.container.scrollTo({
+            left: targetScroll,
+            behavior: 'smooth'
+        });
+    }
+
+    updateActive(index) {
+        this.activeIndex = index;
+        
+        // Update Title
         if (this.titleElement) {
-            this.titleElement.innerText = this.items[this.activeIndex].title;
+            this.titleElement.innerText = this.itemsData[index].title;
             anime({
                 targets: this.titleElement,
                 opacity: [0, 1],
                 translateY: [10, 0],
-                duration: 500,
-                easing: 'easeOutExpo'
+                duration: 400,
+                easing: 'easeOutQuad'
             });
         }
-    }
 
-    animate() {
-        requestAnimationFrame(() => this.animate());
-
-        // Smooth rotation
-        this.currentRotation += (this.targetRotation - this.currentRotation) * 0.1;
-        this.scene.rotation.y = this.currentRotation;
-
-        // Update individual planes (scale and opacity)
-        this.planes.forEach((plane, i) => {
-            const angleStep = (Math.PI * 2) / this.items.length;
-            const relativeAngle = (i * angleStep + this.currentRotation) % (Math.PI * 2);
-            const normalizedAngle = Math.abs(((relativeAngle + Math.PI) % (Math.PI * 2)) - Math.PI);
+        // Animate Items
+        this.items.forEach((item, i) => {
+            const isActive = i === index;
             
-            const isActive = normalizedAngle < 0.5;
-            const targetOpacity = isActive ? 1.0 : 0.2;
-            const targetScale = isActive ? 1.2 : 0.8;
-
-            plane.material.opacity += (targetOpacity - plane.material.opacity) * 0.1;
-            plane.scale.setScalar(plane.scale.x + (targetScale - plane.scale.x) * 0.1);
+            anime({
+                targets: item,
+                scale: isActive ? 1.05 : 0.85,
+                opacity: isActive ? 1 : 0.4,
+                filter: isActive ? 'grayscale(0%) brightness(1.1)' : 'grayscale(100%) brightness(0.5)',
+                duration: 600,
+                easing: 'easeOutElastic(1, .8)'
+            });
         });
-
-        this.renderer.render(this.scene, this.camera);
     }
 }
 
-// ── INITIALIZE CAROUSELS ──
+// ── INITIALIZE ──
 window.addEventListener('load', () => {
-    new ThreeCarousel(
-        'desktop-carousel', 
-        [
-            { src: 'imgs/shadowlarkoracle0.png', title: 'The Interface' },
-            { src: 'imgs/shadowlarkoracle1.png', title: 'The Narrative Engine' },
-            { src: 'imgs/shadowlarkoracle2.png', title: 'Tarot Alignment' }
-        ],
-        '#00e5ff',
-        'desktop-title'
-    );
+    new AnimeCarousel('desktop-carousel', [
+        { src: 'imgs/shadowlarkoracle0.png', title: 'The Interface' },
+        { src: 'imgs/shadowlarkoracle1.png', title: 'The Narrative Engine' },
+        { src: 'imgs/shadowlarkoracle2.png', title: 'Tarot Alignment' }
+    ], 'desktop-title');
 
-    new ThreeCarousel(
-        'mobile-carousel', 
-        [
-            { src: 'imgs/android_main.png', title: 'Mobile Interface' },
-            { src: 'imgs/android_weaving.png', title: 'Mobile Narrative Engine' },
-            { src: 'imgs/android_tarot.png', title: 'Mobile Tarot Ritual' }
-        ],
-        '#f5d061',
-        'mobile-title'
-    );
+    new AnimeCarousel('mobile-carousel', [
+        { src: 'imgs/android_main.png', title: 'Mobile Interface' },
+        { src: 'imgs/android_weaving.png', title: 'Mobile Narrative Engine' },
+        { src: 'imgs/android_tarot.png', title: 'Mobile Tarot Ritual' }
+    ], 'mobile-title');
 
-    // Initial Reveal Animations
     anime({
         targets: '#hero .hero-content',
         opacity: [0, 1],
         scale: [0.9, 1],
-        duration: 1500,
+        duration: 1200,
         easing: 'easeOutExpo',
-        delay: 500
+        delay: 300
     });
 });
 
-// ── SCROLL REVEALS ──
-const observerOptions = { threshold: 0.1 };
+// ── REVEAL OBSERVER ──
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             anime({
                 targets: entry.target,
                 opacity: [0, 1],
-                translateY: [50, 0],
-                duration: 1000,
-                easing: 'easeOutExpo'
+                translateY: [30, 0],
+                duration: 800,
+                easing: 'easeOutQuad'
             });
-            // Fallback for immediate visibility
             entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
             observer.unobserve(entry.target);
         }
     });
-}, observerOptions);
+}, { threshold: 0.1 });
 
 document.querySelectorAll('.card, .matrix-content, .section-title').forEach(el => {
     el.style.opacity = '0';

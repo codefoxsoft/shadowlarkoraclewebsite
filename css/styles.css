@@ -336,16 +336,65 @@ h1 {
 }
 
 #desktop-carousel {
-  height: 600px;
+  height: 500px;
+}
+
+#desktop-carousel .carousel-item {
+  width: 750px;
+  aspect-ratio: 16/9;
 }
 
 #mobile-carousel {
   height: 850px;
 }
 
+#mobile-carousel .carousel-item {
+  width: 380px;
+  aspect-ratio: 9/19.5;
+}
+
 .three-container {
   width: 100%;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 40px 0;
+  scrollbar-width: none; /* Hide scrollbar */
+  -ms-overflow-style: none;
   cursor: grab;
+}
+
+.three-container::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-track {
+  display: flex;
+  padding: 0 40vw; /* Center items */
+  gap: 50px;
+  align-items: center;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  #desktop-carousel .carousel-item { width: 85vw; }
+  #mobile-carousel .carousel-item { width: 70vw; }
+  .carousel-track { padding: 0 10vw; }
 }
 
 .three-container:active {
