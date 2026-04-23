@@ -345,11 +345,11 @@ h1 {
 }
 
 #mobile-carousel {
-  height: 850px;
+  height: 720px; /* 15% shorter than previous 850px */
 }
 
 #mobile-carousel .carousel-item {
-  width: 380px;
+  width: 330px; /* Scaled down proportionally */
   aspect-ratio: 9/19.5;
 }
 
@@ -378,6 +378,7 @@ h1 {
 .carousel-item {
   flex-shrink: 0;
   scroll-snap-align: center;
+  scroll-snap-stop: always; /* Prevents skipping items on fast swipes */
   border-radius: 20px;
   overflow: hidden;
   position: relative;
@@ -393,7 +394,8 @@ h1 {
 
 @media (max-width: 768px) {
   #desktop-carousel .carousel-item { width: 85vw; }
-  #mobile-carousel .carousel-item { width: 70vw; }
+  #mobile-carousel { height: 800px; } /* 5% shorter than 850px */
+  #mobile-carousel .carousel-item { width: 68vw; }
   .carousel-track { padding: 0 10vw; }
 }
 

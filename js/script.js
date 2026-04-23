@@ -157,8 +157,8 @@ class AnimeCarousel {
                 scale: isActive ? 1.05 : 0.85,
                 opacity: isActive ? 1 : 0.4,
                 filter: isActive ? 'grayscale(0%) brightness(1.1)' : 'grayscale(100%) brightness(0.5)',
-                duration: 600,
-                easing: 'easeOutElastic(1, .8)'
+                duration: 300, // Faster duration for 'snappy' feel
+                easing: 'easeOutQuad'
             });
         });
     }
