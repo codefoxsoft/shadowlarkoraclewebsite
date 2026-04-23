@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Shadowlark Mythos | Origins of the Oracle</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.3">
+    <link rel="stylesheet" href="css/styles.css?v=1.5">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
@@ -97,6 +97,47 @@
             grid-column: 1 / -1;
             text-align: center;
         }
+        .legacy-section {
+            margin-bottom: 120px;
+            text-align: center;
+        }
+        .legacy-img-container {
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            padding: 20px;
+            border-radius: 40px;
+            box-shadow: 0 0 50px var(--accent-cyan-glow);
+        }
+        .legacy-img-container img {
+            width: 100%;
+            border-radius: 25px;
+            display: block;
+        }
+        .legacy-quote {
+            font-size: 1.5rem;
+            line-height: 2.2;
+            color: var(--text-primary);
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 40px;
+        }
+        .legacy-quote::before, .legacy-quote::after {
+            content: '"';
+            font-size: 5rem;
+            position: absolute;
+            opacity: 0.1;
+            font-family: var(--font-heading);
+        }
+        .legacy-quote::before { top: -20px; left: 0; }
+        .legacy-quote::after { bottom: -60px; right: 0; }
+        .warrior-highlight {
+            color: var(--accent-gold);
+            font-weight: 800;
+            text-shadow: 0 0 10px var(--accent-gold-glow);
+            font-style: normal;
+        }
     </style>
 </head>
 <body>
@@ -110,6 +151,19 @@
     <main>
         <article>
             <div class="reveal">
+                <!-- ── THE LEGACY ── -->
+                <section class="legacy-section">
+                    <h2 class="mythos-subtitle" style="margin-top: 0; text-align: center;">The <span class="phi-gradient-text">Warrior's</span> Legacy</h2>
+                    <div class="glass legacy-img-container">
+                        <img src="imgs/shadowlarkherself.jpg" alt="Helen Larkin, Brandon Larkin, and Nicholas Larkin">
+                    </div>
+                    <blockquote class="legacy-quote">
+                        The three people in the image from left to right is Brandon Larkin, Helen Larkin, and Nicholas Larkin. Both of my brothers once told me I was a calm kid, and she posed like this not to hold me still but to say: "I'm proud of him, Nicholas is going to grow up to be great one day, <span class="warrior-highlight">this is the warrior.</span>" 
+                        <br><br>
+                        I was told this by my brother as he held back tears. Maybe she knew I'd be the last one to survive the entire family tragedy, and carry on her legacy.
+                    </blockquote>
+                </section>
+
                 <h1 class="mythos-title">The <span class="phi-gradient-text">Origins</span></h1>
                 <section class="lore-section">
                     <p class="lore-p">Before it was a digital engine, <strong>Shadowlark</strong> was a manifestation of the physical world. The name traces back to a sacred Wiccan herbal and crystal shop in Waldorf, MD, owned by the programmer's mother. It was a space where ritual, intent, and the natural cycles of the earth intersected.</p>
@@ -168,15 +222,26 @@
         </footer>
     </main>
 
-    <script src="js/script.js?v=1.3"></script></script>
+    <script src="js/script.js?v=1.4"></script></script>
     <script>
+        // Initial reveal for the whole page
         anime({
             targets: '.reveal',
             opacity: [0, 1],
-            translateY: [50, 0],
+            translateY: [30, 0],
             duration: 1500,
             easing: 'easeOutExpo',
             delay: 300
+        });
+
+        // Special cinematic reveal for the legacy section
+        anime({
+            targets: '.legacy-img-container, .legacy-quote',
+            opacity: [0, 1],
+            scale: [0.95, 1],
+            duration: 2000,
+            easing: 'easeOutExpo',
+            delay: anime.stagger(200, {start: 600})
         });
     </script>
 </body>

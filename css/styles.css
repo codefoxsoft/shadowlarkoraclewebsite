@@ -345,11 +345,11 @@ h1 {
 }
 
 #mobile-carousel {
-  height: 720px; /* 15% shorter than previous 850px */
+  height: 680px; /* Another 5% shorter than 720px */
 }
 
 #mobile-carousel .carousel-item {
-  width: 330px; /* Scaled down proportionally */
+  width: 310px; 
   aspect-ratio: 9/19.5;
 }
 
@@ -378,11 +378,21 @@ h1 {
 .carousel-item {
   flex-shrink: 0;
   scroll-snap-align: center;
-  scroll-snap-stop: always; /* Prevents skipping items on fast swipes */
+  scroll-snap-stop: always;
   border-radius: 20px;
   overflow: hidden;
   position: relative;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  opacity: 0.4;
+  transform: scale(0.85);
+  filter: grayscale(100%) brightness(0.5);
+}
+
+.carousel-item.active {
+  opacity: 1;
+  transform: scale(1.05);
+  filter: grayscale(0%) brightness(1.1);
+  box-shadow: 0 0 40px var(--accent-cyan-glow);
 }
 
 .carousel-item img {
@@ -394,8 +404,8 @@ h1 {
 
 @media (max-width: 768px) {
   #desktop-carousel .carousel-item { width: 85vw; }
-  #mobile-carousel { height: 800px; } /* 5% shorter than 850px */
-  #mobile-carousel .carousel-item { width: 68vw; }
+  #mobile-carousel { height: 760px; } /* Another 5% shorter than 800px */
+  #mobile-carousel .carousel-item { width: 65vw; }
   .carousel-track { padding: 0 10vw; }
 }
 

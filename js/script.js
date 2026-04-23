@@ -143,23 +143,18 @@ class AnimeCarousel {
                 targets: this.titleElement,
                 opacity: [0, 1],
                 translateY: [10, 0],
-                duration: 400,
+                duration: 300,
                 easing: 'easeOutQuad'
             });
         }
 
-        // Animate Items
+        // Toggle active class for CSS transitions (performance optimized)
         this.items.forEach((item, i) => {
-            const isActive = i === index;
-            
-            anime({
-                targets: item,
-                scale: isActive ? 1.05 : 0.85,
-                opacity: isActive ? 1 : 0.4,
-                filter: isActive ? 'grayscale(0%) brightness(1.1)' : 'grayscale(100%) brightness(0.5)',
-                duration: 300, // Faster duration for 'snappy' feel
-                easing: 'easeOutQuad'
-            });
+            if (i === index) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
         });
     }
 }
